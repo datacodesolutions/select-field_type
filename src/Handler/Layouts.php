@@ -35,32 +35,9 @@ class Layouts
     ) {
         $theme = $themes->get($config->get('streams::themes.standard'));
 
-        $layouts = $files->allFiles($theme->getPath('resources/views/layouts'));
+        $options = [];
 
-        $options = array_combine(
-            array_map(
-                function ($path) use ($theme) {
-                    return 'theme::' . ltrim(
-                        str_replace($theme->getPath('resources/views'), '', $path),
-                        '/'
-                    );
-                },
-                $layouts
-            ),
-            array_map(
-                function ($path) use ($theme, $str) {
-                    return $str->humanize(
-                        basename(
-                            ltrim(str_replace($theme->getPath('resources/views/layouts'), '', $path), '/'),
-                            '.twig'
-                        )
-                    );
-                },
-                $layouts
-            )
-        );
-
-        foreach ($files->directories($theme->getPath('resources/views/layouts')) as $directory) {
+        foreach ($files->directories($theme->getPath('resources/views')) as $directory) {
 
             $layouts = $files->allFiles($directory);
 
